@@ -2,8 +2,9 @@
 
 Personal [Rex](https://www.superlogical.com/rex) configuration with a single
 `Ctrl+L` leader for everything, tmux-style controls, Vim navigation, and a
-Gruvbox Dark Hard theme matching Ghostty and Neovim. Ported from my
-[Herdr config](https://github.com/makyinmars/herdr-config).
+Gruvbox Dark Hard theme matching Ghostty and Neovim. The keys follow my
+[Herdr config](https://github.com/makyinmars/herdr-config), so the same muscle
+memory works in both.
 
 ## Configuration
 
@@ -17,9 +18,6 @@ The leader is `Ctrl+L`. Leader bindings are key sequences: press and release
 `Ctrl+L`, then press the action key. `Esc` cancels a sequence. Press `Ctrl+L`
 twice to send a literal `Ctrl+L` (clear screen) to the terminal.
 
-Lowercase keys act on panes and tabs. Shift moves up a level to sessions and
-windows.
-
 Validate and reload without restarting Rex:
 
 ```bash
@@ -28,54 +26,15 @@ rex config reload
 ```
 
 Rex does not watch the file, so reload after every edit, from the terminal or
-with `Ctrl+L r`. The full reference is at
+with `Ctrl+L Shift+R`. The full reference is at
 [superlogical.com/rex/docs](https://www.superlogical.com/rex/docs/customize/config).
 
 ## Keybindings
 
-`Leader` means `Ctrl+L`, released before the following key. Keys are written
-unshifted in `init.lua`, so `%` is `shift+5` and `"` is `shift+'`.
-
-### Panes
-
-| Binding | Action |
-| --- | --- |
-| `Leader %` or `Leader \` | Split right |
-| `Leader "` or `Leader -` | Split down |
-| `Leader Space` | Split in the best-fitting direction |
-| `Leader h/j/k/l` | Focus pane left/down/up/right |
-| `Leader o` / `Leader Shift+O` | Focus next/previous pane |
-| `Leader Shift+h/j/k/l` | Move pane left/down/up/right |
-| `Leader z` | Toggle pane zoom |
-| `Leader f` | Float the pane |
-| `Leader =` | Balance splits |
-| `Leader x` | Close the focused pane |
-| `Leader Shift+B` | Move the pane to a new tab |
-| `Leader Shift+M` | Move the pane to another tab (picker) |
-| `Leader Shift+R` | Enter resize mode |
-
-### Resize mode
-
-| Binding | Action |
-| --- | --- |
-| `h/j/k/l` or arrows | Resize left/down/up/right |
-| `Shift+h/j/k/l` or `Shift+arrows` | Resize in bigger steps |
-| `=` | Balance splits |
-| `Enter` or `Esc` | Leave resize mode |
-
-Resize mode is exclusive: other keys are ignored while it is active, so
-nothing is typed into the terminal by accident.
-
-### Tabs
-
-| Binding | Action |
-| --- | --- |
-| `Leader c` | Create a tab |
-| `Leader n` / `Leader p` | Next/previous tab |
-| `Leader 1` … `Leader 9` | Switch directly to a tab |
-| `Leader ,` | Rename the current tab |
-| `Leader {` / `Leader }` | Move the tab left/right |
-| `Leader Shift+X` | Close the current tab |
+`Leader` means `Ctrl+L`, released before the following key. Every key that
+exists in Herdr does the same thing here; bindings marked *Rex* are extras on
+keys Herdr leaves free. Keys are written unshifted in `init.lua`, so `%` is
+`shift+5` and `"` is `shift+'`.
 
 ### Sessions
 
@@ -84,35 +43,96 @@ Rex sessions correspond to Herdr workspaces.
 | Binding | Action |
 | --- | --- |
 | `Leader s` | Open the session picker |
-| `Leader Shift+C` | Create a session |
-| `Leader Shift+N` / `Leader Shift+P` | Next/previous session |
-| `Leader .` | Rename the current session |
+| `Leader g` | Open the session picker (Herdr's session navigator) |
 | `Leader Shift+1` … `Leader Shift+9` | Switch directly to a session |
 | `Leader Alt+5` | Switch to session 5 |
+| `Leader Shift+N` | Create a session |
+| `Leader Shift+W` | Rename the current session |
+| `Leader Shift+D` | Close the current session |
+| `Leader {` / `Leader }` | Previous/next session (*Rex*) |
 
 Numbered sessions follow the server's session order (new sessions are
 appended); numbers with no session do nothing. Session 5 uses `Alt+5` because
-`Shift+5` is `%`, the split key. Closing a session is left to the command
-palette so it can't be hit by accident.
+`Shift+5` is `%`, the split key. Herdr has the same conflict.
 
-### App
+### Tabs
 
 | Binding | Action |
 | --- | --- |
-| `Leader :` | Open the command palette |
-| `Leader Shift+S` | Open settings |
-| `Leader Shift+W` | Open a new window |
+| `Leader c` | Create a tab |
+| `Leader Shift+T` | Rename the current tab |
+| `Leader n` / `Leader p` | Next/previous tab |
+| `Leader 1` … `Leader 9` | Switch directly to a tab |
+| `Leader Shift+X` | Close the current tab |
+| `Leader <` / `Leader >` | Move the tab left/right (*Rex*) |
+
+### Panes
+
+| Binding | Action |
+| --- | --- |
+| `Leader h/j/k/l` | Focus pane left/down/up/right |
+| `Leader Shift+h/j/k/l` | Move pane left/down/up/right |
+| `Leader %` | Split right |
+| `Leader "` | Split down |
+| `Leader x` | Close the focused pane |
+| `Leader z` | Toggle pane zoom |
+| `Leader Tab` / `Leader Shift+Tab` | Focus next/previous pane |
+| `Leader r` | Enter resize mode |
+| `Leader \` / `Leader -` | Split right/down (*Rex*) |
+| `Leader Space` | Split in the best-fitting direction (*Rex*) |
+| `Leader =` | Balance splits (*Rex*) |
+| `Leader w` | Float the pane (*Rex*) |
+| `Leader Shift+B` | Move the pane to a new tab (*Rex*) |
+| `Leader Shift+M` | Move the pane to another tab, with a picker (*Rex*) |
+
+### Resize mode
+
+| Binding | Action |
+| --- | --- |
+| `h/l` or `Left/Right` | Resize width |
+| `j/k` or `Down/Up` | Resize height |
+| `Shift` + any of the above | Resize in bigger steps |
+| `=` | Balance splits |
+| `Enter` or `Esc` | Leave resize mode |
+
+Resize mode is exclusive: other keys are ignored while it is active, so
+nothing is typed into the terminal by accident.
+
+### Rex controls
+
+| Binding | Action |
+| --- | --- |
 | `Leader b` | Toggle the sidebar |
-| `Leader a` | Toggle the activity panel |
-| `Leader /` | Find in the terminal |
-| `Leader [` / `Leader ]` | Jump to the previous/next prompt |
-| `Leader d` | Go to a directory (picker) |
-| `Leader i` | Insert a path (picker) |
-| `Leader t` | Change theme (picker) |
-| `Leader g` | Apply Gruvbox Dark Hard |
-| `Leader +` / `Leader _` / `Leader )` | Font bigger/smaller/reset |
-| `Leader r` | Reload the configuration |
+| `Leader Shift+S` | Open settings |
+| `Leader Shift+R` | Reload the configuration |
+| `Leader :` | Open the command palette (*Rex*) |
+| `Leader Shift+C` | Open a new window (*Rex*) |
+| `Leader a` | Toggle the activity panel (*Rex*) |
+| `Leader /` | Find in the terminal (*Rex*) |
+| `Leader Up` / `Leader Down` | Jump to the previous/next prompt (*Rex*) |
+| `Leader i` | Insert a path, with a picker (*Rex*) |
+| `Leader Shift+I` | Go to a directory, with a picker (*Rex*) |
+| `Leader t` | Change theme, with a picker (*Rex*) |
+| `Leader +` / `Leader _` / `Leader )` | Font bigger/smaller/reset (*Rex*) |
 | `Leader Ctrl+L` | Send `Ctrl+L` to the terminal |
+
+### Not available in Rex
+
+Rex has no equivalent for these Herdr features, so their keys are left
+unbound rather than given unrelated meanings:
+
+| Binding | Herdr action |
+| --- | --- |
+| `Leader ;` | Jump to the last pane |
+| `Leader Shift+P` | Rename the focused pane |
+| `Leader f` / `Leader Shift+F` | Open the file viewer |
+| `Leader Shift+G` / `Leader Shift+O` | Create/open a Git worktree |
+| `Leader .` / `Leader ,` | Focus the next/previous agent |
+| `Leader o` | Open the latest notification target |
+| `Leader d` | Detach |
+| `Leader ?` | Show keybinding help |
+| `Leader e` | Edit pane scrollback |
+| `Leader [` | Enter copy mode (`Leader /` searches instead) |
 
 ### macOS shortcuts
 
@@ -154,9 +174,9 @@ A shortcut changed inside the app with **Change Shortcut…** overrides
 - Purple: `#d3869b`
 - Aqua: `#8ec07c`
 
-Rex stores the selected theme in the app, not in Lua. On a new machine, press
-`Ctrl+L g` once (or search **Apply Gruvbox Dark Hard** in the command palette)
-to switch to dark mode and import the theme. Rex remembers it after that.
+Rex stores the selected theme in the app, not in Lua. On a new machine, open
+the command palette (`Ctrl+L :`) and run **Apply Gruvbox Dark Hard** once. It
+switches to dark mode and imports the theme, and Rex remembers it after that.
 
 The font (Berkeley Mono Variable), font size, and density are also app
 settings and live in Rex's Settings window, not in `init.lua`.
@@ -170,33 +190,6 @@ settings and live in Rex's Settings window, not in `init.lua`.
 - `apply_gruvbox_dark_hard` (**Apply Gruvbox Dark Hard**) switches to dark
   mode and imports the bundled theme file.
 
-## Differences from Herdr
-
-Splits, pane focus and swapping, zoom, closing panes and tabs, tab
-navigation, the session picker, numbered sessions, settings, and the sidebar
-use the same keys as Herdr. Rex has no equivalent for Herdr's file viewer
-plugin, worktrees, agent cycling, Vim copy mode, scrollback editing, detach,
-keybinding help, or last-pane toggle. These keys differ:
-
-| Key | Herdr | Rex |
-| --- | --- | --- |
-| `Leader r` | Resize mode | Reload config |
-| `Leader Shift+R` | Reload config | Resize mode |
-| `Leader Shift+N` | New workspace | Next session (new is `Leader Shift+C`) |
-| `Leader Shift+P` | Rename pane | Previous session |
-| `Leader Shift+W` | Rename workspace | New window (rename is `Leader .`) |
-| `Leader Shift+T` | Rename tab | Unbound (rename is `Leader ,`) |
-| `Leader Shift+D` | Close workspace | Unbound (command palette) |
-| `Leader Tab` / `Leader Shift+Tab` | Next/previous pane | Unbound (use `Leader o` / `Leader Shift+O`) |
-| `Leader o` | Latest notification | Focus next pane |
-| `Leader Shift+O` | Open worktree | Focus previous pane |
-| `Leader g` | Session navigator | Apply Gruvbox Dark Hard |
-| `Leader f` | File viewer | Float pane |
-| `Leader [` | Copy mode | Jump to previous prompt |
-| `Leader d` | Detach | Go to directory |
-| `Leader .` / `Leader ,` | Next/previous agent | Rename session/tab |
-| `Leader ;`, `Leader e`, `Leader ?`, `Leader Shift+F`, `Leader Shift+G` | Herdr-only features | Unbound |
-
 ## Installation
 
 For a new machine:
@@ -207,7 +200,7 @@ rex config check
 rex config reload
 ```
 
-Then press `Ctrl+L g` once to apply the theme.
+Then run **Apply Gruvbox Dark Hard** from the command palette once.
 
 If `~/.config/rex` already exists, clone elsewhere and copy `init.lua` and
 `themes/` into it. Set `REX_CONFIG` in the Rex server's environment to load

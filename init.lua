@@ -20,8 +20,9 @@ rex.action({
   end,
 })
 
--- Import Ghostty's exact palette through the local app. Press Ctrl+L then G
--- once to apply it; Rex.app remembers the selection. Remote Control can stay off.
+-- Import Ghostty's exact palette through the local app. Run it once from the
+-- command palette (Ctrl+L then :); Rex.app remembers the selection. Remote
+-- Control can stay off.
 rex.action({
   name = "apply_gruvbox_dark_hard",
   title = "Apply Gruvbox Dark Hard",
@@ -35,8 +36,9 @@ rex.action({
 })
 
 -- Ctrl+L is the leader for everything: press and release it, then the action
--- key. Escape cancels a sequence. Lowercase keys act on panes and tabs; Shift
--- moves up a level to sessions and windows.
+-- key. Escape cancels a sequence. Keys match Herdr's wherever Rex has the same
+-- feature, and Rex-only extras use keys Herdr leaves free. Herdr keys for
+-- features Rex lacks stay unbound: ; o f F d e ? [ . , G O P.
 local prefix = "ctrl+l>"
 
 -- Panes. % and double quote must be spelled as unshifted keys plus Shift;
@@ -51,8 +53,8 @@ rex.bind(prefix .. "h", "pane.focus", { direction = "left" })
 rex.bind(prefix .. "j", "pane.focus", { direction = "down" })
 rex.bind(prefix .. "k", "pane.focus", { direction = "up" })
 rex.bind(prefix .. "l", "pane.focus", { direction = "right" })
-rex.bind(prefix .. "o", "pane.focus_next")
-rex.bind(prefix .. "shift+o", "pane.focus_previous")
+rex.bind(prefix .. "tab", "pane.focus_next")
+rex.bind(prefix .. "shift+tab", "pane.focus_previous")
 
 rex.bind(prefix .. "shift+h", "pane.move", { direction = "left" })
 rex.bind(prefix .. "shift+j", "pane.move", { direction = "down" })
@@ -60,15 +62,16 @@ rex.bind(prefix .. "shift+k", "pane.move", { direction = "up" })
 rex.bind(prefix .. "shift+l", "pane.move", { direction = "right" })
 
 rex.bind(prefix .. "z", "pane.zoom")
-rex.bind(prefix .. "f", "pane.float")
-rex.bind(prefix .. "=", "pane.balance")
 rex.bind(prefix .. "x", "pane.close")
+rex.bind(prefix .. "r", "client.mode.enter", { name = "resize" })
+rex.bind(prefix .. "=", "pane.balance")
+rex.bind(prefix .. "w", "pane.float")
 rex.bind(prefix .. "shift+b", "pane.move_to_new_tab")
 rex.bind(prefix .. "shift+m", "pane.move_to_tab")
-rex.bind(prefix .. "shift+r", "client.mode.enter", { name = "resize" })
 
--- Resize mode: h/j/k/l or arrows resize, Shift for bigger steps, = balances,
--- Enter or Escape leaves. Exclusive so stray keys never reach the terminal.
+-- Resize mode, as in Herdr: h/j/k/l or arrows resize, Shift for bigger steps,
+-- = balances, Enter or Escape leaves. Exclusive so stray keys never reach the
+-- terminal.
 rex.mode("resize", { exclusive = true })
 local resize_keys = {
   left = { "h", "left" },
@@ -89,20 +92,23 @@ rex.bind("resize/enter", "client.mode.exit")
 rex.bind(prefix .. "c", "client.tab.new")
 rex.bind(prefix .. "n", "client.tab.next")
 rex.bind(prefix .. "p", "client.tab.previous")
-rex.bind(prefix .. ",", "client.tab.rename")
-rex.bind(prefix .. "shift+[", "client.tab.move.backward")
-rex.bind(prefix .. "shift+]", "client.tab.move.forward")
+rex.bind(prefix .. "shift+t", "client.tab.rename")
 rex.bind(prefix .. "shift+x", "client.tab.close")
+rex.bind(prefix .. "shift+,", "client.tab.move.backward")
+rex.bind(prefix .. "shift+.", "client.tab.move.forward")
 for index = 1, 9 do
   rex.bind(prefix .. index, "client.tab.goto", { index = index })
 end
 
--- Sessions (Herdr workspaces).
+-- Sessions (Herdr workspaces). g is Herdr's searchable navigator; Rex's
+-- session picker is searchable too.
 rex.bind(prefix .. "s", "session.switch")
-rex.bind(prefix .. "shift+c", "session.new")
-rex.bind(prefix .. "shift+n", "session.next")
-rex.bind(prefix .. "shift+p", "session.previous")
-rex.bind(prefix .. ".", "session.rename")
+rex.bind(prefix .. "g", "session.switch")
+rex.bind(prefix .. "shift+n", "session.new")
+rex.bind(prefix .. "shift+w", "session.rename")
+rex.bind(prefix .. "shift+d", "session.close")
+rex.bind(prefix .. "shift+[", "session.previous")
+rex.bind(prefix .. "shift+]", "session.next")
 -- Herdr's Shift+5 session shortcut conflicts with its % split shortcut.
 -- Keep % for splitting; use Alt+5 for session 5 instead.
 for index = 1, 9 do
@@ -111,22 +117,21 @@ for index = 1, 9 do
 end
 
 -- App, search, and appearance, plus a way to send the original clear key.
-rex.bind(prefix .. "shift+;", "client.palette.toggle")
-rex.bind(prefix .. "shift+s", "client.settings")
-rex.bind(prefix .. "shift+w", "client.window.new")
 rex.bind(prefix .. "b", "client.sidebar.toggle")
+rex.bind(prefix .. "shift+s", "client.settings")
+rex.bind(prefix .. "shift+r", "client.config.reload")
+rex.bind(prefix .. "shift+;", "client.palette.toggle")
+rex.bind(prefix .. "shift+c", "client.window.new")
 rex.bind(prefix .. "a", "client.sidebar.activity.toggle")
 rex.bind(prefix .. "/", "client.find.open")
-rex.bind(prefix .. "[", "client.prompt.previous")
-rex.bind(prefix .. "]", "client.prompt.next")
-rex.bind(prefix .. "d", "pane.go_to_directory")
+rex.bind(prefix .. "up", "client.prompt.previous")
+rex.bind(prefix .. "down", "client.prompt.next")
 rex.bind(prefix .. "i", "pane.insert_path")
+rex.bind(prefix .. "shift+i", "pane.go_to_directory")
 rex.bind(prefix .. "t", "client.theme.change")
-rex.bind(prefix .. "g", "apply_gruvbox_dark_hard")
 rex.bind(prefix .. "shift+=", "client.font.increase")
 rex.bind(prefix .. "shift+-", "client.font.decrease")
 rex.bind(prefix .. "shift+0", "client.font.reset")
-rex.bind(prefix .. "r", "client.config.reload")
 rex.bind(prefix .. "ctrl+l", "pane.send_key", { key = "ctrl+l" })
 
 -- Herdr's native macOS shortcuts; Rex's other defaults remain available.
