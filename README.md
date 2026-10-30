@@ -29,6 +29,15 @@ Rex does not watch the file, so reload after every edit, from the terminal or
 with `Ctrl+L Shift+R`. The full reference is at
 [superlogical.com/rex/docs](https://www.superlogical.com/rex/docs/customize/config).
 
+`rex config check` only sees the file. `rex keymap` asks the running server
+what it loaded, with the line behind each binding, and is where a misspelled
+action name or a sequence that hides another binding shows up. To try an
+action without reloading:
+
+```bash
+rex do ~/.config/rex/init.lua --action edit_scrollback
+```
+
 ## Keybindings
 
 `Leader` means `Ctrl+L`, released before the following key. Every key that
@@ -78,12 +87,29 @@ appended); numbers with no session do nothing. Session 5 uses `Alt+5` because
 | `Leader z` | Toggle pane zoom |
 | `Leader Tab` / `Leader Shift+Tab` | Focus next/previous pane |
 | `Leader r` | Enter resize mode |
+| `Leader Shift+P` | Rename the focused pane |
+| `Leader e` | Edit the pane's scrollback in `$EDITOR` |
+| `Leader [` | Same as `Leader e`, standing in for Herdr's Vim copy mode |
 | `Leader \` / `Leader -` | Split right/down (*Rex*) |
 | `Leader Space` | Split in the best-fitting direction (*Rex*) |
 | `Leader =` | Balance splits (*Rex*) |
 | `Leader w` | Float the pane (*Rex*) |
 | `Leader Shift+B` | Move the pane to a new tab (*Rex*) |
 | `Leader Shift+M` | Move the pane to another tab, with a picker (*Rex*) |
+
+### Agents
+
+| Binding | Action |
+| --- | --- |
+| `Leader .` / `Leader ,` | Focus the next/previous agent, in any session |
+| `Leader o` | Go to the pane that most recently finished, failed, or got blocked |
+
+A pane counts as an agent when its program reports a known app through
+Rex's [Program Status Protocol](https://www.superlogical.com/rex/docs/build/program-status)
+(Claude Code does), or when its foreground process is `claude`, `codex`,
+`opencode`, `pi`, `gemini`, `grok`, `aider`, or `amp`. `Leader o` works for
+any program that reports status, agent or not. Both say so when there is
+nowhere to go.
 
 ### Resize mode
 
@@ -105,6 +131,7 @@ nothing is typed into the terminal by accident.
 | `Leader b` | Toggle the sidebar |
 | `Leader Shift+S` | Open settings |
 | `Leader Shift+R` | Reload the configuration |
+| `Leader ?` | Show this README's keybindings in a floating pager |
 | `Leader :` | Open the command palette (*Rex*) |
 | `Leader Shift+C` | Open a new window (*Rex*) |
 | `Leader a` | Toggle the activity panel (*Rex*) |
@@ -124,15 +151,12 @@ unbound rather than given unrelated meanings:
 | Binding | Herdr action |
 | --- | --- |
 | `Leader ;` | Jump to the last pane |
-| `Leader Shift+P` | Rename the focused pane |
 | `Leader f` / `Leader Shift+F` | Open the file viewer |
 | `Leader Shift+G` / `Leader Shift+O` | Create/open a Git worktree |
-| `Leader .` / `Leader ,` | Focus the next/previous agent |
-| `Leader o` | Open the latest notification target |
 | `Leader d` | Detach |
-| `Leader ?` | Show keybinding help |
-| `Leader e` | Edit pane scrollback |
-| `Leader [` | Enter copy mode (`Leader /` searches instead) |
+
+Jumping to the last pane needs focus history, and the configuration file
+never receives events, so it can't be built in Lua yet.
 
 ### macOS shortcuts
 
@@ -181,14 +205,51 @@ switches to dark mode and imports the theme, and Rex remembers it after that.
 The font (Berkeley Mono Variable), font size, and density are also app
 settings and live in Rex's Settings window, not in `init.lua`.
 
+## Shell integration
+
+`shell/rex.zsh` makes zsh tell Rex where prompts and commands begin (OSC 133)
+and which directory it is in (OSC 7). Starship emits neither, and without
+them:
+
+- `Leader Up` / `Leader Down` have no prompts to jump between.
+- A program that crashes while *working* or *blocked* keeps its spinner,
+  because Rex clears those states when the shell's prompt returns.
+- Lua's `terminal.pwd_changed` event and the terminal's `pwd` stay empty.
+
+It also puts the `rex` that matches the server back at the front of `PATH`,
+as the [CLI docs](https://www.superlogical.com/rex/docs/automate/cli#path)
+recommend, since later lines in `~/.zshrc` prepend other directories.
+
+Add this to `~/.zshrc` before zoxide's init, which must stay last:
+
+```zsh
+[[ -n $REX_SESSION && -r ~/.config/rex/shell/rex.zsh ]] && source ~/.config/rex/shell/rex.zsh
+```
+
+It does nothing outside Rex, and its prompt hook runs first and hands the exit
+status on, so Starship and Atuin still see it.
+
 ## Custom actions
 
-`init.lua` defines two Lua actions, both available in the command palette:
+`init.lua` defines these Lua actions, all available in the command palette:
 
 - `session_by_index` (**Go to Numbered Session**) selects a session by its
   position in the server's session list.
 - `apply_gruvbox_dark_hard` (**Apply Gruvbox Dark Hard**) switches to dark
   mode and imports the bundled theme file.
+- `edit_scrollback` (**Edit Pane Scrollback**) writes the focused pane's
+  screen and scrollback to a temporary file and opens it in `$EDITOR` (default
+  `nvim`) in a floating pane, at the bottom. The file is removed when the
+  editor exits.
+- `rename_pane` (**Rename Pane**) asks for a label in a small floating pane.
+  Labels are what `rex -b NAME` and agents use to find a pane.
+- `show_keys` (**Show Keybinding Help**) opens this README at the
+  keybindings in [glow](https://github.com/charmbracelet/glow), or `less`
+  without it.
+- `focus_agent` (**Focus Next Agent**) cycles through agent panes in every
+  session; `step=-1` goes backward.
+- `focus_attention` (**Go to Pane Needing Attention**) focuses the pane whose
+  program status most recently became blocked, done, or error.
 
 ## Installation
 
@@ -200,7 +261,8 @@ rex config check
 rex config reload
 ```
 
-Then run **Apply Gruvbox Dark Hard** from the command palette once.
+Then run **Apply Gruvbox Dark Hard** from the command palette once, and add
+the [shell integration](#shell-integration) line to `~/.zshrc`.
 
 If `~/.config/rex` already exists, clone elsewhere and copy `init.lua` and
 `themes/` into it. Set `REX_CONFIG` in the Rex server's environment to load
@@ -208,7 +270,8 @@ If `~/.config/rex` already exists, clone elsewhere and copy `init.lua` and
 
 ## Requirements
 
-- Rex Beta 0.1.0 (1541) or later on macOS
+- Rex Beta 0.1.0 (1642) or later on macOS
+- Optional: [glow](https://github.com/charmbracelet/glow) for `Leader ?`
 - Optional: [StyLua](https://github.com/JohnnyMorganz/StyLua) to check
   formatting with
   `stylua --check --indent-type Spaces --indent-width 2 init.lua`
