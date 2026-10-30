@@ -381,6 +381,8 @@ rex.bind(prefix .. "shift+0", "client.font.reset")
 rex.bind(prefix .. "ctrl+l", "pane.send_key", { key = "ctrl+l" })
 
 -- Herdr's native macOS shortcuts; Rex's other defaults remain available.
+-- Cmd+1-9 are left to Rex, which already goes to tabs with them: rebinding
+-- them hides the tab number hints and loses the keypad digits.
 rex.bind("cmd+t", "client.tab.new")
 rex.bind("cmd+shift+n", "session.new")
 rex.bind("cmd+alt+shift+n", "client.window.new")
@@ -399,9 +401,6 @@ rex.bind("cmd+shift+enter", "pane.zoom")
 rex.bind("cmd+ctrl+f", "client.window.fullscreen.toggle")
 rex.bind("cmd+w", "pane.close")
 rex.bind("cmd+shift+w", "client.tab.close")
-for index = 1, 9 do
-  rex.bind("cmd+" .. index, "client.tab.goto", { index = index })
-end
 
 rex.bind("cmd+b", "client.sidebar.toggle")
 rex.bind("cmd+=", "client.font.increase")
@@ -413,7 +412,7 @@ rex.bind("cmd+p", "session.switch")
 rex.bind("cmd+shift+p", "client.palette.toggle")
 
 -- Native terminal search. For Vim-style copying, Leader [ opens the scrollback
--- in $EDITOR.
+-- in $EDITOR. Cmd+Shift+G is left to Rex: previous match while the find bar
+-- is open, Go to Directory otherwise.
 rex.bind("cmd+f", "client.find.open")
 rex.bind("cmd+g", "client.find.next")
-rex.bind("cmd+shift+g", "client.find.previous")

@@ -161,7 +161,9 @@ unbound rather than given unrelated meanings:
 | `Leader d` | Detach |
 
 Jumping to the last pane needs focus history, and the configuration file
-never receives events, so it can't be built in Lua yet.
+never receives events, so it can't be built in Lua yet. Superlogical has
+accepted the feature request for a built-in action, as well as one for a Vim
+copy mode, which would replace `Leader [`.
 
 ### macOS shortcuts
 
@@ -183,9 +185,15 @@ Herdr's native Cmd shortcuts work alongside the leader:
 | `Cmd+P` | Session picker |
 | `Cmd+Shift+P` | Command palette |
 | `Cmd+B` | Toggle the sidebar |
-| `Cmd+F`, `Cmd+G`, `Cmd+Shift+G` | Find, next, previous |
+| `Cmd+F`, `Cmd+G` | Find, find next |
+| `Cmd+Shift+G` | Previous match while finding, otherwise Go to Directory (Rex default) |
 | `Cmd+=` / `Cmd+-` / `Cmd+0` | Font bigger/smaller/reset |
 | `Cmd+,` | Settings |
+
+`Cmd+1` … `Cmd+9` and `Cmd+Shift+G` are Rex's own defaults and are
+deliberately not rebound: binding `Cmd+1` … `Cmd+9` hides the tab number hints
+and stops the keypad digits from working, and Rex's `Cmd+Shift+G` switches
+between find and Go to Directory on its own.
 
 A shortcut changed inside the app with **Change Shortcut…** overrides
 `init.lua`. If a binding seems to do nothing, check the app first.
