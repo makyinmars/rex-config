@@ -59,6 +59,8 @@ Rex sessions correspond to Herdr workspaces.
 | `Leader Shift+W` | Rename the current session |
 | `Leader Shift+D` | Close the current session |
 | `Leader {` / `Leader }` | Previous/next session (*Rex*) |
+| `Leader Shift+Z` | Collapse every other session in the sidebar (*Rex*) |
+| `Leader u` | Open the session on the web, over Tailscale (*Rex*) |
 
 Numbered sessions follow the server's session order (new sessions are
 appended); numbers with no session do nothing. Session 5 uses `Alt+5` because
@@ -74,12 +76,13 @@ appended); numbers with no session do nothing. Session 5 uses `Alt+5` because
 | `Leader 1` … `Leader 9` | Switch directly to a tab |
 | `Leader Shift+X` | Close the current tab |
 | `Leader <` / `Leader >` | Move the tab left/right (*Rex*) |
+| `Leader Shift+E` | Move the tab to a new window (*Rex*) |
 
 ### Panes
 
 | Binding | Action |
 | --- | --- |
-| `Leader h/j/k/l` | Focus pane left/down/up/right |
+| `Leader h/j/k/l` | Focus pane left/down/up/right, wrapping at the edges |
 | `Leader Shift+h/j/k/l` | Move pane left/down/up/right |
 | `Leader %` | Split right |
 | `Leader "` | Split down |
@@ -96,6 +99,7 @@ appended); numbers with no session do nothing. Session 5 uses `Alt+5` because
 | `Leader w` | Float the pane (*Rex*) |
 | `Leader Shift+B` | Move the pane to a new tab (*Rex*) |
 | `Leader Shift+M` | Move the pane to another tab, with a picker (*Rex*) |
+| `Leader y` | Copy the pane's ID, for `rex -b` (*Rex*) |
 
 ### Agents
 
@@ -140,6 +144,7 @@ nothing is typed into the terminal by accident.
 | `Leader i` | Insert a path, with a picker (*Rex*) |
 | `Leader Shift+I` | Go to a directory, with a picker (*Rex*) |
 | `Leader t` | Change theme, with a picker (*Rex*) |
+| `Leader v` | Toggle the tab style (*Rex*) |
 | `Leader +` / `Leader _` / `Leader )` | Font bigger/smaller/reset (*Rex*) |
 | `Leader Ctrl+L` | Send `Ctrl+L` to the terminal |
 
@@ -165,9 +170,10 @@ Herdr's native Cmd shortcuts work alongside the leader:
 | Binding | Action |
 | --- | --- |
 | `Cmd+D` / `Cmd+Shift+D` | Split right/down |
-| `Cmd+Alt+arrows` | Focus pane |
+| `Cmd+Alt+arrows` | Focus pane, wrapping at the edges |
 | `Cmd+Alt+[` / `Cmd+Alt+]` | Focus previous/next pane |
 | `Cmd+Shift+Enter` | Toggle pane zoom |
+| `Cmd+Ctrl+F` | Toggle full screen |
 | `Cmd+W` / `Cmd+Shift+W` | Close pane/tab |
 | `Cmd+T` | New tab |
 | `Cmd+1` … `Cmd+9` | Switch directly to a tab |
