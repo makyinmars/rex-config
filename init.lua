@@ -136,6 +136,30 @@ rex.action({
   end,
 })
 
+-- Neovim through neorex (github.com/alexrlocke/neorex), which shows each
+-- Neovim window as a Rex pane, in a new tab at the focused pane's directory.
+-- An interactive zsh runs it, so it gets the PATH typing neorex at the prompt
+-- gets: Rex's login shell alone skips ~/.zshrc, which puts ~/.local/bin and
+-- the Node toolchain on PATH. The tab closes when Neovim quits.
+rex.action({
+  name = "open_neorex",
+  title = "Open Neovim in a New Tab",
+  category = "Tab",
+  run = function(ctx)
+    local reply = ctx.block_id and rex.block.call(terminal, "process", { block_id = ctx.block_id })
+    local cwd = reply and reply.foreground and reply.foreground.cwd
+    local _, err = rex.session.new_window({
+      layout = rex.layout.block({
+        flavor = shell,
+        options = { command = { "zsh", "-ic", "exec neorex" }, cwd = cwd },
+      }),
+    })
+    if err ~= nil then
+      error(err, 0)
+    end
+  end,
+})
+
 -- Herdr's agent navigation. A pane is an agent when its program reports a
 -- known app through the Program Status Protocol (Claude Code does), or when
 -- its foreground process is a known agent. Program status also drives the
@@ -338,6 +362,7 @@ rex.bind(prefix .. "shift+x", "client.tab.close")
 rex.bind(prefix .. "shift+,", "client.tab.move.backward")
 rex.bind(prefix .. "shift+.", "client.tab.move.forward")
 rex.bind(prefix .. "shift+e", "client.tab.move_to_new_window")
+rex.bind(prefix .. "shift+v", "open_neorex")
 for index = 1, 9 do
   rex.bind(prefix .. index, "client.tab.goto", { index = index })
 end

@@ -77,6 +77,7 @@ appended); numbers with no session do nothing. Session 5 uses `Alt+5` because
 | `Leader Shift+X` | Close the current tab |
 | `Leader <` / `Leader >` | Move the tab left/right (*Rex*) |
 | `Leader Shift+E` | Move the tab to a new window (*Rex*) |
+| `Leader Shift+V` | Open Neovim through neorex in a new tab, in the pane's directory (*Rex*) |
 
 ### Panes
 
@@ -255,6 +256,11 @@ status on, so Starship and Atuin still see it.
   screen and scrollback to a temporary file and opens it in `$EDITOR` (default
   `nvim`) in a floating pane, at the bottom. The file is removed when the
   editor exits.
+- `open_neorex` (**Open Neovim in a New Tab**) runs
+  [neorex](https://github.com/alexrlocke/neorex), which shows each Neovim
+  window as its own Rex pane, in a new tab at the focused pane's directory.
+  It starts through an interactive zsh, so Neovim gets the same `PATH` as
+  typing `neorex` at the prompt. The tab closes when Neovim quits.
 - `rename_pane` (**Rename Pane**) asks for a label in a small floating pane.
   Labels are what `rex -b NAME` and agents use to find a pane.
 - `show_keys` (**Show Keybinding Help**) opens this README at the
@@ -286,6 +292,8 @@ If `~/.config/rex` already exists, clone elsewhere and copy `init.lua` and
 
 - Rex Beta 0.1.0 (1642) or later on macOS
 - Optional: [glow](https://github.com/charmbracelet/glow) for `Leader ?`
+- Optional: [neorex](https://github.com/alexrlocke/neorex) on the `PATH`
+  `~/.zshrc` sets, for `Leader Shift+V`
 - Optional: [StyLua](https://github.com/JohnnyMorganz/StyLua) to check
   formatting with
   `stylua --check --indent-type Spaces --indent-width 2 init.lua`
