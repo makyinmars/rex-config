@@ -47,6 +47,8 @@ rex.bind(prefix .. "x", "pane.close")
 rex.bind(prefix .. "r", "client.mode.enter", { name = "resize" })
 rex.bind(prefix .. "=", "pane.balance")
 rex.bind(prefix .. "w", "pane.float")
+rex.bind(prefix .. "m", "pane.minimize_floating")
+rex.bind(prefix .. "alt+m", "pane.minimize_all_floating")
 rex.bind(prefix .. "shift+b", "pane.move_to_new_tab")
 rex.bind(prefix .. "shift+m", "pane.move_to_tab")
 rex.bind(prefix .. "y", "pane.copy_id")
@@ -134,6 +136,7 @@ rex.bind(prefix .. "shift+/", "show_keys")
 rex.bind(prefix .. "shift+;", "client.palette.toggle")
 rex.bind(prefix .. "shift+c", "client.window.new")
 rex.bind(prefix .. "a", "client.sidebar.activity.toggle")
+rex.bind(prefix .. "shift+a", "client.sidebar.filter.focus")
 rex.bind(prefix .. "/", "client.find.open")
 rex.bind(prefix .. "up", "client.prompt.previous")
 rex.bind(prefix .. "down", "client.prompt.next")
@@ -176,6 +179,10 @@ rex.bind("cmd+0", "client.font.reset")
 rex.bind("cmd+,", "client.settings")
 rex.bind("cmd+p", "session.switch")
 rex.bind("cmd+shift+p", "client.palette.toggle")
+
+-- Show Rex from any app, or hide it when it's in front. Rex has no default key
+-- for this, and a leader sequence couldn't work from another app.
+rex.bind("cmd+ctrl+alt+r", "client.visibility.toggle")
 
 -- Native terminal search. For keyboard copying, Leader [ opens copy mode.
 -- Cmd+Shift+G is left to Rex: previous match while the find bar is open, Go

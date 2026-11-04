@@ -116,11 +116,17 @@ prompt. The tab closes when Neovim quits.
 | `Leader r` | Enter resize mode |
 | `Leader =` | Balance splits |
 | `Leader w` | Float the pane |
+| `Leader m` | Minimize the floating pane, or bring it back |
+| `Leader Alt+M` | Minimize or show all floating panes |
 | `Leader Shift+B` | Move the pane to a new tab |
 | `Leader Shift+M` | Move the pane to another tab, with a picker |
 | `Leader Shift+P` | Rename the focused pane |
 | `Leader y` | Copy the pane's ID, for `rex -b` |
 | `Leader Shift+F` | Open a file location printed in the pane, in Neovim |
+
+A minimized pane keeps running in a capsule at the bottom right of the tab.
+Going to it with `Leader ;`, `Leader .`, `Leader ,`, or `Leader o` brings it
+back, so `Leader ;` right after minimizing reopens the pane.
 
 `Leader Shift+F` lists the `path:line`, `path:line:col`, `path(line,col)`, and
 `@path#L12` locations in the pane, plus bare file names, that exist on disk,
@@ -195,6 +201,7 @@ active, so nothing is typed into the terminal by accident.
 | `Leader :` | Open the command palette |
 | `Leader Shift+C` | Open a new window |
 | `Leader a` | Toggle the activity panel |
+| `Leader Shift+A` | Focus the filter in the sidebar or Activity popup; `Esc` returns to the terminal |
 | `Leader i` | Insert a path, with a picker |
 | `Leader Shift+I` | Go to a directory, with a picker |
 | `Leader t` | Change theme, with a picker |
@@ -210,6 +217,9 @@ active, so nothing is typed into the terminal by accident.
 | `Cmd+Alt+arrows` | Focus across panes and Neovim splits, wrapping at the edges |
 | `Cmd+Alt+[` / `Cmd+Alt+]` | Focus previous/next pane |
 | `Cmd+Shift+Enter` | Toggle pane zoom |
+| `Cmd+Alt+M` | Minimize the floating pane, or bring it back (Rex default) |
+| `Cmd+Alt+Shift+Enter` | Minimize or show all floating panes (Rex default) |
+| `Cmd+Ctrl+Alt+R` | Show Rex from any app, or hide it when it's in front |
 | `Cmd+Ctrl+F` | Toggle full screen |
 | `Cmd+W` / `Cmd+Shift+W` | Close pane/tab |
 | `Cmd+T` | New tab |
@@ -384,7 +394,8 @@ another path.
 
 ## Requirements
 
-- Rex Beta 0.1.0 (1642) or later on macOS
+- Rex Beta 0.1.0 (1758) or later on macOS. Minimizing floating panes also needs
+  the server restarted once since updating to it.
 - Neovim 0.12 or later with `~/.config/nvim/lua/rex`, for navigation, opening
   locations, and sending to agents
 - [fzf](https://github.com/junegunn/fzf) for `Leader f` and `Leader Shift+F`,
