@@ -121,7 +121,6 @@ rex.bind(prefix .. "shift+d", "session.close")
 rex.bind(prefix .. "shift+[", "session.previous")
 rex.bind(prefix .. "shift+]", "session.next")
 rex.bind(prefix .. "shift+z", "session.collapse_others")
-rex.bind(prefix .. "u", "session.open_on_web")
 -- Shift+5 is % (split right), so session 5 is Alt+5.
 for index = 1, 9 do
   local modifier = index == 5 and "alt+" or "shift+"

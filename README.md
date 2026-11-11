@@ -71,7 +71,6 @@ unshifted in `init.lua`, so `%` is `shift+5` and `"` is `shift+'`.
 | `Leader Shift+D` | Close the current session |
 | `Leader {` / `Leader }` | Previous/next session |
 | `Leader Shift+Z` | Collapse every other session in the sidebar |
-| `Leader u` | Open the session on the web, over Tailscale |
 
 In the project picker, a session switches to it. A directory switches to the
 session with the directory's name, or creates one with Neovim on the left
