@@ -18,14 +18,14 @@ rex.action({
   end,
 })
 
--- tmux-style copy mode: the scrollback in a bare, fast Neovim
+-- Copy-mode fallback: the scrollback in a bare, fast Neovim
 -- (nvim/copy-mode.lua) that starts at the bottom. Any yank copies to the
 -- clipboard and closes it: v, move, y or Enter. q closes without copying.
 -- Full-screen programs (Neovim, lazygit) have no scrollback, so for those
 -- this shows what is on screen.
 rex.action({
   name = "copy_mode",
-  title = "Copy Mode",
+  title = "Copy Mode in Neovim",
   category = "Pane",
   run = function(ctx)
     local block_id = common.require_block(ctx)

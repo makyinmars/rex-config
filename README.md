@@ -67,6 +67,7 @@ unshifted in `init.lua`, so `%` is `shift+5` and `"` is `shift+'`.
 | `Leader Shift+1` … `Leader Shift+9` | Switch directly to a session |
 | `Leader Alt+5` | Switch to session 5 |
 | `Leader Shift+N` | Create a session |
+| `Leader Alt+N` | Open New Session on Host when multiple hosts are connected (Mac preview 33+) |
 | `Leader Shift+W` | Rename the current session |
 | `Leader Shift+D` | Close the current session |
 | `Leader {` / `Leader }` | Previous/next session |
@@ -136,18 +137,22 @@ this tab, through its socket, or in a new Neovim split.
 
 | Binding | Action |
 | --- | --- |
-| `Leader [` | Copy mode |
+| `Leader [` | Rex's native copy mode (Mac preview 32+) |
+| `Leader Alt+[` | Copy mode in Neovim (also works on older clients) |
 | `Leader e` | Edit the pane's scrollback in `$EDITOR` |
 | `Leader Shift+Y` | Copy the last command's output |
 | `Leader Shift+U` / `Leader Page Up` | Enter scroll mode |
 | `Leader /` | Find in the terminal |
 | `Leader Up` / `Leader Down` | Jump to the previous/next prompt |
 
-Copy mode opens the pane's scrollback in a bare Neovim
-(`nvim/copy-mode.lua`, no plugins) at the bottom. `v`, move, then `y` or
-`Enter` copies to the clipboard and closes; any yank (`yy`, `yiw`) does the
-same. `/` searches, `q` closes. Full-screen programs (Neovim, lazygit) have no
-scrollback, so for those it shows what is on screen.
+Native copy mode stays in the current pane. Move with Vim keys, use `v` to
+select text, and press `y` or `Enter` to copy. `/` searches; `q` or `Esc` exits.
+Rex's default `Cmd+Shift+C` also enters native copy mode.
+
+The Neovim fallback opens the pane's scrollback in a bare Neovim
+(`nvim/copy-mode.lua`, no plugins) at the bottom. Any yank (`yy`, `yiw`)
+copies and closes. Full-screen programs (Neovim, lazygit) have no scrollback,
+so the fallback shows what is on screen.
 
 `Leader Shift+Y` finds commands by the Starship prompt (`╭─` then `╰─❯`). If
 the prompt changes, update `prompt_header` and `prompt_line` in
@@ -226,6 +231,7 @@ active, so nothing is typed into the terminal by accident.
 | `Cmd+Shift+[` / `Cmd+Shift+]` | Previous/next tab |
 | `Cmd+Shift+N` | New session |
 | `Cmd+Alt+Shift+N` | New window |
+| `Cmd+Shift+C` | Native copy mode (Rex default, Mac preview 32+) |
 | `Cmd+P` | Session picker |
 | `Cmd+Shift+P` | Command palette |
 | `Cmd+B` | Toggle the sidebar |

@@ -55,8 +55,9 @@ rex.bind(prefix .. "y", "pane.copy_id")
 rex.bind(prefix .. "shift+p", "rename_pane")
 rex.bind(prefix .. "shift+f", "open_location")
 
--- Scrollback: copy mode, $EDITOR, the last command's output, and scroll mode.
-rex.bind(prefix .. "[", "copy_mode")
+-- Scrollback: native copy mode, with the Neovim version for older clients.
+rex.bind(prefix .. "[", "pane.copy_mode.enter")
+rex.bind(prefix .. "alt+[", "copy_mode")
 rex.bind(prefix .. "e", "edit_scrollback")
 rex.bind(prefix .. "shift+y", "copy_last_output")
 rex.bind(prefix .. "shift+u", "client.mode.enter", { name = "scroll" })
@@ -116,6 +117,7 @@ rex.bind(prefix .. "s", "session.switch")
 rex.bind(prefix .. "g", "session.switch")
 rex.bind(prefix .. "f", "project_picker")
 rex.bind(prefix .. "shift+n", "session.new")
+rex.bind(prefix .. "alt+n", "session.new.on_host")
 rex.bind(prefix .. "shift+w", "session.rename")
 rex.bind(prefix .. "shift+d", "session.close")
 rex.bind(prefix .. "shift+[", "session.previous")
@@ -153,6 +155,7 @@ rex.bind(prefix .. "ctrl+l", "pane.send_key", { key = "ctrl+l" })
 -- them hides the tab number hints and loses the keypad digits.
 rex.bind("cmd+t", "client.tab.new")
 rex.bind("cmd+shift+n", "session.new")
+-- Keep the existing New Window chord; Leader Alt+N opens New Session on Host.
 rex.bind("cmd+alt+shift+n", "client.window.new")
 rex.bind("cmd+d", "pane.split", { direction = "right" })
 rex.bind("cmd+shift+d", "pane.split", { direction = "down" })
